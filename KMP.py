@@ -1,3 +1,5 @@
+import sys
+import TestCases
 def makeLPSArry(sub: str, size: int) -> list[int]:
     len = 0
     lps = [0] * size
@@ -44,22 +46,35 @@ def kmp(text: str, sub: str) -> bool:
     return False
 
 
-
-
-def main():
-    fileName = input('What file would you like to use for input?')
-    searchWord = input('What word would you like to search for?').lower()
-
+def findWordsInTitles(fileName, searchWord) -> (int, int, float):
     file = open(fileName, "r")
     count = 0
     book_cnt = 0
     for i in file:
         book_cnt += 1
-        if kmp(i, searchWord):
+        if kmp(i.lower(), searchWord.lower()):
             count += 1
 
-    percent = round(( float(count) / float(book_cnt) ) * 100, 2)
-    print(f"The word {searchWord} appears in {percent}% of book titles")
+    percent = round((float(count) / float(book_cnt)) * 100, 2)
+    return book_cnt, count, percent
 
 
-main()
+def defaultRun():
+    fileName = input('What file would you like to use for input?')
+    searchWord = input('What word would you like to search for?')
+
+    book_cnt, count, percent = findWordsInTitles(fileName, searchWord)
+
+    print(f"The word {searchWord} appears in {count} books ({percent}% of book titles)")
+
+
+if __name__ == '__main__':
+    if len(sys.argv) != 1:
+        if sys.argv[1] == '-c':
+            TestCases.correctnessTests()
+        elif sys.argv[1] == '-s':
+            TestCases.speedTest()
+    else:
+        defaultRun()
+
+
