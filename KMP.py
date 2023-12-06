@@ -1,5 +1,10 @@
 import sys
 import TestCases
+
+'''
+AOA Final Project Code done by 
+Robert Book and Keiran Berry
+'''
 def makeLPSArry(sub: str, size: int) -> list[int]:
     len = 0
     lps = [0] * size

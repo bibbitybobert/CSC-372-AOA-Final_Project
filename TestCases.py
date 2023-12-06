@@ -1,9 +1,6 @@
-import string
-
 from KMP import findWordsInTitles
 from KMP import kmp
 from simpleFind import findWordsSimple
-from simpleFind import simpleFind
 import time
 import matplotlib.pyplot as plt
 import random
