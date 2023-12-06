@@ -74,6 +74,8 @@ if __name__ == '__main__':
             TestCases.correctnessTests()
         elif sys.argv[1] == '-s':
             TestCases.speedTest()
+        elif sys.argv[1] == '-t':
+            TestCases.single_string_test()
     else:
         defaultRun()
 

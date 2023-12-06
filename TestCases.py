@@ -1,7 +1,13 @@
+import string
+
 from KMP import findWordsInTitles
+from KMP import kmp
 from simpleFind import findWordsSimple
+from simpleFind import simpleFind
 import time
 import matplotlib.pyplot as plt
+import random
+import numpy as np
 
 
 def speedTest():
@@ -44,6 +50,41 @@ def speedTest():
     plt.ylabel('time (in seconds)')
     plt.legend()
     plt.show()
+
+
+def single_string_test():
+    titleLen = []
+    KMPTimes = []
+    simpleTimes = []
+    KMPcount = 0
+    for j in range(1000, 10000, 200):
+        randString = ''
+        for i in range(j):
+            randString += chr(random.randint(ord('a'), ord('z')))
+        # print(randString + '\n')
+        titleLen.append(len(randString))
+        KMPStart = time.time()
+        KMPfound = kmp(randString, 'aaaa')
+        KMPEnd = time.time()
+        KMPTime = KMPEnd - KMPStart
+        KMPTimes.append(KMPTime)
+        if KMPfound:
+            KMPcount += 1
+
+
+    print(f'Found string \'abcd\' {KMPcount} times using KMP')
+    titleLen.sort()
+    KMPTimes.sort()
+    plt.scatter(titleLen, KMPTimes, color='red')
+    KMPa, KMPb = np.polyfit(titleLen, KMPTimes, 1)
+    plt.plot(titleLen, KMPa*np.array(titleLen)+KMPb, label='KMP time', color='red')
+    plt.xlabel('String Length')
+    plt.ylabel('Time (in seconds)')
+    plt.title('Runtime of Knuth-Morris-Pratt algorithm')
+    plt.legend()
+    plt.show()
+
+
 
 
 def correctnessTests():
