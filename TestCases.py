@@ -1,20 +1,27 @@
 from KMP import findWordsInTitles
 from simpleFind import findWordsSimple
 import time
+import matplotlib.pyplot as plt
 
 
 def speedTest():
     testFiles = ['fictionBooks.txt', 'fictionAntiWarBooks.txt', 'nonFictionAntiWarBooks.txt', 'allAntiWarBooks.txt']
     testWords = ['the', 'vietnam', 'war', 'of', 'empire', 'America', 'a']
+    x:list = [0]
+    kmpy:list = [0]
+    naivey:list = [0]
 
     for j in testFiles:
         print(f'In {j} ')
         KMPstart = time.time()
+        book_cnt = 0
         for i in testWords:
             book_cnt, count, percent = findWordsInTitles(j, i)
             print(f'\tThe word \"{i}\" was found in {count} of {book_cnt} ({percent}%) book titles')
         KMPend = time.time()
         KMPtime = KMPend - KMPstart
+        x.append(book_cnt)
+        kmpy.append(KMPtime)
 
         simpleStart =time.time()
         for i in testWords:
@@ -22,10 +29,21 @@ def speedTest():
             print(f'\tThe word \"{i}\" was found in {count} of {book_cnt} ({percent}%) book titles')
         simpleEnd = time.time()
         simpleTime = simpleEnd - simpleStart
+        naivey.append(simpleTime)
 
         print(f'KMP speed for {j}: {KMPtime}')
         print(f'Naive search alg speed for {j}: {simpleTime}')
         print(f'Difference (Naive - KMP): {simpleTime - KMPtime}\n')
+
+    x.sort()
+    naivey.sort()
+    kmpy.sort()
+    plt.plot(x, kmpy, label = 'KMP')
+    plt.plot(x, naivey, label= 'naive solution')
+    plt.xlabel('number of books')
+    plt.ylabel('time (in seconds)')
+    plt.legend()
+    plt.show()
 
 
 def correctnessTests():
